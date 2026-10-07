@@ -1,5 +1,0 @@
-merchant_id,merchant_name,merchant_category,region,chiffre_affaires,nb_transactions,nb_clients_uniques,montant_moyen,rang_ca_categorie,rang_ca_region,commission_totale,ca_jeune,ca_adulte,ca_age_moyen,ca_senior
-M004,BeautyPlus 4,Beauty,Auvergne-Rhône-Alpes,305.0,1,1,305.0,1,1,9.15,0.0,0.0,0.0,305.0
-M003,ElecStore 2,Electronics,Grand Est,907.6,1,1,907.6,2,1,40.84,0.0,0.0,907.6,0.0
-M002,ElecStore 2,Electronics,Ile-de-France,1831.2,2,1,915.6,1,1,82.4,0.0,1831.2,0.0,0.0
-M001,GardenShop 1,Home & Garden,Ile-de-France,1133.41,3,1,377.8,1,2,77.3,1133.41,0.0,0.0,0.0
