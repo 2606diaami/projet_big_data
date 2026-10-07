@@ -75,11 +75,42 @@ EcommerceAnalytics/
 ├── src/
 │   ├── main/
 │   │   ├── scala/com/ecommerce/
-│   │   │   ├── analytics/    (DataIngestion, DataValidation, Analytics, MainApp...)
+│   │   │   ├── analytics/
+│   │   │   │   ├── DataIngestion.scala
+│   │   │   │   ├── DataValidation.scala
+│   │   │   │   ├── DataQualityReport.scala
+│   │   │   │   ├── DataTransformation.scala
+│   │   │   │   ├── TimeFeatures.scala
+│   │   │   │   ├── Analytics.scala
+│   │   │   │   ├── RFMSegmentation.scala
+│   │   │   │   ├── ProductAnalytics.scala
+│   │   │   │   └── MainApp.scala
 │   │   │   ├── models/       (case classes Transaction, User, Product, Merchant)
-│   │   │   └── utils/        (ConfigLoader, DataFrameWriterUtils)
+│   │   │   └── utils/        (ConfigLoader, DataFrameWriterUtils, SparkOptimizations)
 │   │   └── resources/
 │   │       ├── application.conf
 │   │       └── data/         (transactions.csv, users.json, products.parquet, merchants.csv)
 └── output/                   (résultats générés : CSV + Parquet)
 ```
+
+## Questions bonus réalisées
+
+En plus du tronc commun, les bonus suivants ont été implémentés et testés sur les vraies données du projet :
+
+- **Q2.5** — Vérification de l'intégrité référentielle entre transactions et tables de référence (users, products, merchants), via jointures `left_anti`
+- **Q3.4** — Détection des transactions suspectes (écart au panier moyen, horaire nocturne, délai court entre achats, paiement en crypto-monnaie)
+- **Q4.3** — Segmentation RFM (Récence/Fréquence/Montant) des clients, avec croisement par segment client existant
+- **Q4.4** — Analyse produits et catégories (top 10 produits, chiffre d'affaires par catégorie/région, chiffre d'affaires par mode de paiement/période)
+- **Q5.3** — Mesure du gain apporté par les optimisations (cache)
+
+## Q5.3 — Mesure du gain des optimisations (bonus)
+
+Test effectué en exécutant 3 agrégations successives (`groupBy` sur category, payment_method, location) sur le même DataFrame de transactions validées, avec et sans mise en cache.
+
+| Mesure | Résultat |
+|---|---|
+| Durée sans cache | 5,55 secondes |
+| Durée avec cache | 3,24 secondes |
+| Gain | 41,66 % |
+
+Le cache évite à Spark de relire et retraiter les données depuis le disque à chaque nouvelle action, ce qui explique le gain de temps observé dès la 2ème opération.
