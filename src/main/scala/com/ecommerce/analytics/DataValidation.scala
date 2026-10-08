@@ -13,8 +13,8 @@ object DataValidation {
 
     val dfAvecRaisons = df.withColumn("rejection_reason",
       concat_ws(" | ",
-        when(col("amount") <= ConfigLoader.transactionMinAmount, lit("amount <= 0")),
-        when(length(col("timestamp")) =!= 14, lit("timestamp_invalide"))
+        when(col("amount").isNull || col("amount") <= ConfigLoader.transactionMinAmount, lit("amount_null_ou_<=0")),
+        when(col("timestamp").isNull || length(col("timestamp")) =!= 14, lit("timestamp_null_ou_invalide"))
       )
     )
 
